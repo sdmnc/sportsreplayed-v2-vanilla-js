@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register - SportsReplayed</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+
+    <style>
+      .login-form-container {
+        max-width: 450px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: var(--card-color);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+      }
+      .login-form-container h1 {
+        text-align: center;
+        border-bottom: none;
+        margin-bottom: 30px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-light);
+      }
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-light);
+        border-radius: 5px;
+        box-sizing: border-box; /* Important for correct padding calculation */
+      }
+      .form-group button {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+        border: none;
+        border-radius: 5px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .form-footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .form-error {
+        display: none;
+        color: #ff6b6b;
+        font-size: 0.9rem;
+        margin-top: 8px;
+      }
+      .form-group.invalid input {
+        border-color: #ff6b6b;
+      }
+    </style>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+  <body>
+    <div data-include="header"></div>
+
+    <main>
+      <div class="login-form-container">
+        <form id="register-form" novalidate>
+          <h1>Create Account</h1>
+          <div class="form-group">
+            <label for="reg-username">Username</label>
+            <input type="text" id="reg-username" name="username" required />
+            <small class="form-error" id="reg-username-error"></small>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" name="email" required />
+            <small class="form-error" id="reg-email-error"></small>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" name="password" required />
+            <small class="form-error" id="reg-password-error"></small>
+          </div>
+          <div class="form-group">
+            <label for="reg-confirm">Confirm Password</label>
+            <input
+              type="password"
+              id="reg-confirm"
+              name="confirmPassword"
+              required />
+            <small class="form-error" id="reg-confirm-error"></small>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="register-submit">Create Account</button>
+          </div>
+          <div class="form-footer">
+            <p>Already have an account? <a href="login.html">Sign in</a></p>
+            <p style="margin-top: 8px; color: var(--text-color)">
+              After sign-up, check your email to verify your account.
+            </p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script>
+      (function () {
+        const form = document.getElementById("register-form");
+        const usernameInput = document.getElementById("reg-username");
+        const emailInput = document.getElementById("reg-email");
+        const passwordInput = document.getElementById("reg-password");
+        const confirmInput = document.getElementById("reg-confirm");
+        const submitBtn = document.getElementById("register-submit");
+
+        const usernameError = document.getElementById("reg-username-error");
+        const emailError = document.getElementById("reg-email-error");
+        const passwordError = document.getElementById("reg-password-error");
+        const confirmError = document.getElementById("reg-confirm-error");
+
+        function setError(groupEl, errorEl, message) {
+          groupEl.classList.add("invalid");
+          errorEl.textContent = message;
+          errorEl.style.display = "block";
+        }
+
+        function clearError(groupEl, errorEl) {
+          groupEl.classList.remove("invalid");
+          errorEl.textContent = "";
+          errorEl.style.display = "none";
+        }
+
+        function isValidEmail(email) {
+          // Simple email pattern
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validate() {
+          let valid = true;
+
+          const userGroup = usernameInput.parentElement;
+          const emailGroup = emailInput.parentElement;
+          const passGroup = passwordInput.parentElement;
+          const confirmGroup = confirmInput.parentElement;
+
+          clearError(userGroup, usernameError);
+          clearError(emailGroup, emailError);
+          clearError(passGroup, passwordError);
+          clearError(confirmGroup, confirmError);
+
+          const username = usernameInput.value.trim();
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
+          const confirm = confirmInput.value;
+
+          if (!username) {
+            setError(userGroup, usernameError, "Please enter a username.");
+            valid = false;
+          } else if (username.length < 3) {
+            setError(
+              userGroup,
+              usernameError,
+              "Username must be at least 3 characters."
+            );
+            valid = false;
+          }
+
+          if (!email) {
+            setError(emailGroup, emailError, "Please enter your email.");
+            valid = false;
+          } else if (!isValidEmail(email)) {
+            setError(
+              emailGroup,
+              emailError,
+              "Please enter a valid email address."
+            );
+            valid = false;
+          }
+
+          if (!password) {
+            setError(passGroup, passwordError, "Please enter a password.");
+            valid = false;
+          } else if (password.length < 6) {
+            setError(
+              passGroup,
+              passwordError,
+              "Password must be at least 6 characters."
+            );
+            valid = false;
+          }
+
+          if (!confirm) {
+            setError(
+              confirmGroup,
+              confirmError,
+              "Please confirm your password."
+            );
+            valid = false;
+          } else if (confirm !== password) {
+            setError(confirmGroup, confirmError, "Passwords do not match.");
+            valid = false;
+          }
+
+          return valid;
+        }
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          if (!validate()) return;
+
+          submitBtn.disabled = true;
+          const originalText = submitBtn.textContent;
+          submitBtn.textContent = "Creating…";
+
+          const payload = {
+            username: usernameInput.value.trim(),
+            email: emailInput.value.trim(),
+            password: passwordInput.value,
+          };
+
+          try {
+            if (window.registerApiUrl) {
+              // FIX: Use relative path so Nginx handles the domain and SSL automatically
+              const res = await fetch(window.registerApiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+              if (!res.ok) {
+                const errText = await res.text();
+                throw new Error(errText || "Registration failed");
+              }
+              const data = await res.json().catch(() => ({}));
+              const token = data.token || data.accessToken || data.jwt;
+              const user = data.user || {
+                username: payload.username,
+                email: payload.email,
+              };
+              if (
+                token &&
+                window.Auth &&
+                typeof window.Auth.saveAuth === "function"
+              ) {
+                window.Auth.saveAuth(token, user);
+                window.location.href = "profile.html";
+                return;
+              }
+            } else {
+              await new Promise((r) => setTimeout(r, 900));
+              if (window.Auth && typeof window.Auth.saveAuth === "function") {
+                window.Auth.saveAuth("dev-token", {
+                  username: payload.username,
+                  email: payload.email,
+                });
+                window.location.href = "profile.html";
+                return;
+              }
+            }
+            window.location.href = "verify.html";
+          } catch (err) {
+            const emailGroup = emailInput.parentElement;
+            setError(
+              emailGroup,
+              emailError,
+              (err && err.message) || "Registration failed. Please try again."
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

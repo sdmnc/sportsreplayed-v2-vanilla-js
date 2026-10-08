@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members - SportsReplayed</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Members - SportsReplayed",
+      "url": "https://sportsreplayed.com/members.html",
+      "description": "Browse the SportsReplayed community and discover fans who review and discuss classic sports replays.",
+      "keywords": [
+        "sports fan community for replay discussions",
+        "where fans review match moments together",
+        "find community to discuss sports replays",
+        "sports replay website for fans",
+        "user-generated sports replay discussions"
+      ]
+    }
+    </script>
+
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+
+    <style>
+      .members-container {
+        max-width: 960px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+      }
+      .members-container h1 {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+      }
+      .members-list {
+        display: grid;
+        /* Create columns of member names */
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .member-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+      }
+      .member-item:hover {
+        background-color: var(--bg-color);
+      }
+      .member-avatar {
+        width: 32px;
+        height: 32px;
+        background: var(--profile-avatar-bg, #2c3440);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: var(--profile-avatar-icon, #678);
+      }
+      .member-link {
+        text-decoration: none;
+        color: var(--text-light);
+        font-weight: 600;
+      }
+      .member-link:hover {
+        color: var(--accent-color);
+      }
+      #members-loading {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 40px 0;
+        color: var(--text-color);
+      }
+    </style>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+  <body>
+    <div data-include="header"></div>
+
+    <main>
+      <div class="members-container">
+        <h1>Members</h1>
+
+        <!-- This div will be filled by JavaScript -->
+        <div id="members-list">
+          <p id="members-loading">Loading members...</p>
+        </div>
+      </div>
+    </main>
+
+    
+    <div data-include="footer"></div>
+
+    <script>
+      (async function () {
+        const listEl = document.getElementById("members-list");
+        const loadingEl = document.getElementById("members-loading");
+
+        try {
+          // 1. Get the API base URL from the config file
+          // Note: in production `window.API_BASE_URL` is intentionally set to
+          // an empty string so relative paths are used. Use a strict check
+          // so we don't fall back to localhost when the value is an empty string.
+          // Use central helper to build API URLs
+          const res = await fetch(window.apiUrl('/api/users'));
+
+          if (!res.ok) {
+            throw new Error("Failed to load members list");
+          }
+
+          const users = await res.json();
+
+          if (users.length === 0) {
+            loadingEl.textContent = "No members found.";
+            return;
+          }
+
+          // 3. Clear the "Loading..." message
+          listEl.innerHTML = "";
+
+          // 4. Loop through each user and create a link
+          users.forEach((user) => {
+            const item = document.createElement("div");
+            item.className = "member-item";
+
+            // Note: Oracle returns column names in uppercase (user.username)
+            item.innerHTML = `
+                        <div class="member-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <a class="member-link" href="profile.html?username=${encodeURIComponent(user.username)}">
+                            ${user.username}
+                        </a>
+                    `;
+            listEl.appendChild(item);
+          });
+        } catch (err) {
+          console.error("Error loading members:", err);
+          loadingEl.textContent = "Could not load members.";
+          loadingEl.style.color = "#ff6b6b";
+        }
+      })();
+    </script>
+  </body>
+</html>

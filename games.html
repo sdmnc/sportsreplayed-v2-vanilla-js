@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Games & Sports - SportsReplayed</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Games & Sports - SportsReplayed",
+      "url": "https://sportsreplayed.com/games.html",
+      "description": "Browse sports on SportsReplayed, discover legendary games, and find matches to track, review, and discuss.",
+      "keywords": [
+        "track, review, discuss sports online",
+        "best website to track old sports matches",
+        "sports replay archive for fans",
+        "track sports match results online",
+        "website to track my favorite teams’ games",
+        "track games I've watched"
+      ]
+    }
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+    <style>
+      .sports-hero {
+        text-align: center;
+        padding: 50px 20px;
+        background: linear-gradient(
+          180deg,
+          rgba(233, 160, 13, 0.12),
+          rgba(233, 160, 13, 0)
+        );
+        border-bottom: 1px solid var(--border-color);
+      }
+      .sports-hero h1 {
+        border: none;
+        margin-bottom: 10px;
+      }
+      .sports-hero p {
+        margin: 0;
+        color: var(--text-color);
+      }
+
+      .sports-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+      .sport-card {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 18px;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+      .sport-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--accent-color);
+      }
+      .sport-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .sport-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(233, 160, 13, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-color);
+        font-size: 1.25rem;
+      }
+      .sport-title {
+        color: var(--text-light);
+        font-weight: 700;
+      }
+      .sport-body {
+        color: var(--text-color);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+      .sport-actions {
+        margin-top: 12px;
+      }
+      .sport-actions a {
+        color: var(--text-color);
+        margin-right: 12px;
+      }
+      .sport-actions a:hover {
+        color: var(--text-light);
+        text-decoration: none;
+      }
+    </style>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+  <body>
+    <div data-include="header"></div>
+
+    <section class="sports-hero">
+      <div class="container">
+        <h1>Explore All Sports</h1>
+        <p>
+          Browse popular sports and discover legendary games to watch and
+          discuss.
+        </p>
+      </div>
+    </section>
+
+    <main>
+      <div class="container">
+        <div class="sports-grid">
+          <!-- Soccer -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon"><i class="fa-solid fa-futbol"></i></div>
+              <div class="sport-title">Soccer</div>
+            </div>
+            <div class="sport-body">
+              World Cup classics, Champions League nights, legendary derbies,
+              and more.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Champions League">Trending</a>
+              <a href="search.html?sport=Soccer">All Games</a>
+            </div>
+          </div>
+
+          <!-- Basketball -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-basketball"></i>
+              </div>
+              <div class="sport-title">Basketball</div>
+            </div>
+            <div class="sport-body">
+              Finals epics, buzzer-beaters, dynasties, and iconic player
+              performances.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=NBA">Trending</a>
+              <a href="search.html?sport=Basketball">All Games</a>
+            </div>
+          </div>
+
+          <!-- American Football -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon"><i class="fa-solid fa-football"></i></div>
+              <div class="sport-title">American Football</div>
+            </div>
+            <div class="sport-body">
+              Super Bowls, comeback games, and unforgettable playoff moments.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Super Bowl">Trending</a>
+              <a href="search.html?query=NFL">All Games</a>
+            </div>
+          </div>
+
+          <!-- Baseball -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon"><i class="fa-solid fa-baseball"></i></div>
+              <div class="sport-title">Baseball</div>
+            </div>
+            <div class="sport-body">
+              World Series thrillers, perfect games, walk-offs, and historic
+              rivalries.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=World Series">Trending</a>
+              <a href="search.html?sport=Baseball">All Games</a>
+            </div>
+          </div>
+
+          <!-- Tennis -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+              </div>
+              <div class="sport-title">Tennis</div>
+            </div>
+            <div class="sport-body">
+              Grand Slam marathons, rivalries, and five-set masterpieces.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Wimbledon">Trending</a>
+              <a href="search.html?sport=Tennis">All Games</a>
+            </div>
+          </div>
+
+          <!-- Athletics -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-person-running"></i>
+              </div>
+              <div class="sport-title">Athletics</div>
+            </div>
+            <div class="sport-body">
+              Olympic moments, world records, and legendary sprint showdowns.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Olympics">Trending</a>
+              <a href="search.html?query=Athletics">All Events</a>
+            </div>
+          </div>
+
+          <!-- Formula 1 -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-flag-checkered"></i>
+              </div>
+              <div class="sport-title">Formula 1</div>
+            </div>
+            <div class="sport-body">
+              Monaco magic, title deciders, wet weather chaos, and rivalries.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Formula 1">Trending</a>
+              <a href="search.html?query=Grand Prix">All Races</a>
+            </div>
+          </div>
+
+          <!-- UFC / MMA -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-hand-fist"></i>
+              </div>
+              <div class="sport-title">UFC / MMA</div>
+            </div>
+            <div class="sport-body">
+              All-time fights, title bouts, upsets, and legendary cards.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=UFC">Trending</a>
+              <a href="search.html?query=MMA">All Fights</a>
+            </div>
+          </div>
+
+          <!-- Hockey -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-hockey-puck"></i>
+              </div>
+              <div class="sport-title">Hockey</div>
+            </div>
+            <div class="sport-body">
+              Stanley Cup battles, overtime thrillers, and classic rivalries.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Stanley Cup">Trending</a>
+              <a href="search.html?sport=Ice Hockey">All Games</a>
+            </div>
+          </div>
+
+          <!-- Golf -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-golf-ball-tee"></i>
+              </div>
+              <div class="sport-title">Golf</div>
+            </div>
+            <div class="sport-body">
+              Major Sundays, miracle shots, and timeless course drama.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Masters">Trending</a>
+              <a href="search.html?sport=Golf">All Tournaments</a>
+            </div>
+          </div>
+
+          <!-- Cycling -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-person-biking"></i>
+              </div>
+              <div class="sport-title">Cycling</div>
+            </div>
+            <div class="sport-body">
+              Grand Tours, mountain stages, sprints, and heroic breakaways.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=Tour de France">Trending</a>
+              <a href="search.html?sport=Cycling">All Stages</a>
+            </div>
+          </div>
+
+          <!-- Cricket -->
+          <div class="sport-card">
+            <div class="sport-header">
+              <div class="sport-icon">
+                <i class="fa-solid fa-cricket-bat-ball"></i>
+              </div>
+              <div class="sport-title">Cricket</div>
+            </div>
+            <div class="sport-body">
+              World Cups, test classics, last-over thrillers, and iconic
+              innings.
+            </div>
+            <div class="sport-actions">
+              <a href="search.html?query=World Cup">Trending</a>
+              <a href="search.html?sport=Cricket">All Matches</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    
+    <div data-include="footer"></div>
+  </body>
+</html>

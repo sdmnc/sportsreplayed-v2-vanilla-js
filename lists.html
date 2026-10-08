@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lists - SportsReplayed</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Lists - SportsReplayed",
+      "url": "https://sportsreplayed.com/lists.html",
+      "description": "Create and manage personal lists of watched events and sports watchlists on SportsReplayed.",
+      "keywords": [
+        "track games I've watched",
+        "sports watchlist app",
+        "log watched sports games",
+        "personal sports calendar",
+        "sports diary",
+        "sports viewing history"
+      ]
+    }
+    </script>
+
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+
+    <style>
+      .lists-container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 20px;
+      }
+      .lists-container h1 {
+        margin-bottom: 10px;
+        border-bottom: none;
+      }
+      .lists-intro {
+        color: var(--text-color);
+        margin-bottom: 30px;
+      }
+      .lists-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+      }
+      .list-card {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+      .list-card h2 {
+        border-bottom: none;
+        margin: 0 0 4px;
+      }
+      .list-card p {
+        margin: 0;
+        color: var(--text-color);
+      }
+      .list-form {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .list-form input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-color);
+        color: var(--text-light);
+      }
+      .list-form button {
+        padding: 10px 16px;
+        border-radius: 6px;
+        border: none;
+        background: var(--accent-color);
+        color: var(--bg-color);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .list-items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.15);
+        border: 1px solid var(--border-color);
+        gap: 10px;
+      }
+      .list-item label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        cursor: pointer;
+      }
+      .list-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--accent-color);
+      }
+      .list-item span {
+        color: var(--text-light);
+        word-break: break-word;
+      }
+      .list-item span.completed {
+        text-decoration: line-through;
+        color: var(--text-color);
+      }
+      .list-item button {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-light);
+        border-radius: 6px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      .list-item button:hover {
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+      }
+      @media (max-width: 600px) {
+        .list-form {
+          flex-direction: column;
+        }
+        .list-form button {
+          width: 100%;
+        }
+      }
+    </style>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+  <body>
+    <div data-include="header"></div>
+
+    <main>
+      <div class="lists-container">
+        <h1>Your Personal Event Lists</h1>
+        <p class="lists-intro">
+          Keep two running tallies: one for events you've already watched and another
+          for the matchups you're lining up next. Add items one-by-one and keep tabs
+          just like a focused to‑do list.
+        </p>
+
+        <div class="lists-grid">
+          <section class="list-card" data-list="watched">
+            <h2>Watched Events</h2>
+            <p>Celebrate the classics you've already enjoyed.</p>
+
+            <form class="list-form" data-list-form="watched">
+              <input
+                type="text"
+                name="event"
+                placeholder="Ex: 1998 NBA Finals Game 6"
+                autocomplete="off"
+                required />
+              <button type="submit">Add</button>
+            </form>
+
+            <ul class="list-items" id="list-watched"></ul>
+          </section>
+
+          <section class="list-card" data-list="upnext">
+            <h2>Watchlist</h2>
+            <p>Queue the events you don't want to miss.</p>
+
+            <form class="list-form" data-list-form="upnext">
+              <input
+                type="text"
+                name="event"
+                placeholder="Ex: 2025 NCAA Final Four"
+                autocomplete="off"
+                required />
+              <button type="submit">Add</button>
+            </form>
+
+            <ul class="list-items" id="list-upnext"></ul>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    
+    <div data-include="footer"></div>
+
+    <script>
+      (function () {
+        const STORAGE_KEY = "sr-event-lists";
+        const listElements = {
+          watched: document.getElementById("list-watched"),
+          upnext: document.getElementById("list-upnext"),
+        };
+
+        const defaultState = {
+          watched: [],
+          upnext: [],
+        };
+
+        let state = loadState();
+        renderAll();
+
+        document.querySelectorAll("[data-list-form]").forEach((form) => {
+          form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const listName = form.getAttribute("data-list-form");
+            const input = form.querySelector('input[name="event"]');
+            const value = input.value.trim();
+            if (!value) return;
+
+            addItem(listName, value);
+            input.value = "";
+            input.focus();
+          });
+        });
+
+        Object.entries(listElements).forEach(([listName, ul]) => {
+          ul.addEventListener("click", (event) => {
+            const button = event.target.closest("button[data-remove-id]");
+            if (button) {
+              const itemId = button.getAttribute("data-remove-id");
+              removeItem(listName, itemId);
+            }
+          });
+
+          ul.addEventListener("change", (event) => {
+            if (event.target.matches('input[type="checkbox"]')) {
+              const itemId = event.target.getAttribute("data-item-id");
+              toggleItem(listName, itemId, event.target.checked);
+            }
+          });
+        });
+
+        function loadState() {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return { ...defaultState };
+            const parsed = JSON.parse(raw);
+            return {
+              watched: parsed.watched || [],
+              upnext: parsed.upnext || [],
+            };
+          } catch (err) {
+            console.warn("Unable to read saved lists:", err);
+            return { ...defaultState };
+          }
+        }
+
+        function saveState() {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function createItem(text) {
+          return {
+            id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+            text,
+            completed: false,
+          };
+        }
+
+        function addItem(listName, text) {
+          state[listName] = [createItem(text), ...state[listName]];
+          saveState();
+          renderList(listName);
+        }
+
+        function removeItem(listName, itemId) {
+          state[listName] = state[listName].filter((item) => item.id !== itemId);
+          saveState();
+          renderList(listName);
+        }
+
+        function toggleItem(listName, itemId, completed) {
+          state[listName] = state[listName].map((item) =>
+            item.id === itemId ? { ...item, completed } : item
+          );
+          saveState();
+          renderList(listName);
+        }
+
+        function renderAll() {
+          Object.keys(listElements).forEach(renderList);
+        }
+
+        function renderList(listName) {
+          const list = state[listName];
+          const container = listElements[listName];
+          container.innerHTML = "";
+
+          if (!list || list.length === 0) {
+            const empty = document.createElement("li");
+            empty.className = "list-item";
+            empty.innerHTML = `<span style="color: var(--text-color);">Nothing here yet — start adding!</span>`;
+            container.appendChild(empty);
+            return;
+          }
+
+          list.forEach((item) => {
+            const li = document.createElement("li");
+            li.className = "list-item";
+            li.innerHTML = `
+              <label>
+                <input type="checkbox" data-item-id="${item.id}" ${
+              item.completed ? "checked" : ""
+            }>
+                <span class="${item.completed ? "completed" : ""}">${item.text}</span>
+              </label>
+              <button aria-label="Remove ${item.text}" data-remove-id="${item.id}">
+                <i class="fas fa-times"></i>
+              </button>
+            `;
+            container.appendChild(li);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+

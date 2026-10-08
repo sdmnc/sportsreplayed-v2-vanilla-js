@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Events - SportsReplayed</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Search Events - SportsReplayed",
+      "url": "https://sportsreplayed.com/search.html",
+      "description": "Search for sports events and replays on SportsReplayed to track, review, and discuss specific matches.",
+      "keywords": [
+        "find match replays and review them",
+        "where to discuss sports highlights",
+        "search sports replays online",
+        "platform to track sports plays and analyze them later"
+      ]
+    }
+    </script>
+
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+
+    <style>
+      .search-container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 24px 20px 40px;
+        background: var(--card-color);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+
+      .search-header {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .search-header h1 {
+        border: none;
+        margin-bottom: 6px;
+      }
+
+      .search-header p {
+        margin: 0;
+        color: var(--text-color);
+      }
+
+      .search-filters {
+        display: grid;
+        grid-template-columns: minmax(200px, 260px) minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      @media (max-width: 768px) {
+        .search-filters {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      #sport-filter,
+      #search-input {
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-color);
+        color: var(--text-light);
+        font-size: 0.95rem;
+      }
+
+      #search-input::placeholder {
+        color: var(--text-color);
+      }
+
+      #search-btn,
+      .btn {
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: none;
+        background: var(--accent-color);
+        color: var(--bg-color);
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      #search-btn:hover,
+      .btn:hover {
+        background: #ffb400;
+      }
+
+      #search-results {
+        margin-top: 10px;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 20px 0;
+        color: var(--text-color);
+      }
+
+      .loading i {
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 20px 0;
+        color: var(--text-color);
+      }
+
+      .api-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 10px;
+      }
+
+      .api-section {
+        background: var(--bg-color);
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        padding: 16px 16px 18px;
+      }
+
+      .api-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .api-header h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .api-badge {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(233, 160, 13, 0.1);
+        color: var(--accent-color);
+        border: 1px solid var(--accent-color);
+      }
+
+      .api-loading p,
+      .api-error {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 0.9rem;
+      }
+
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+      }
+
+      .event-card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .event-card {
+        background: var(--card-color);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: transform 0.15s ease, border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-color);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+      }
+
+      .event-card h3 {
+        margin: 0 0 4px;
+        font-size: 0.98rem;
+        color: var(--text-light);
+      }
+
+      .event-card p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-color);
+      }
+    </style>
+      <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+  <body>
+    <div data-include="header"></div>
+
+    <main>
+      <div class="search-container">
+        <div class="search-header">
+          <h1 id="search-title">Search Events</h1>
+          <p id="search-subtitle">Find sports events to watch and review!</p>
+        </div>
+
+        <div class="search-filters">
+          <select id="sport-filter">
+            <option value="">All Sports</option>
+            <option value="Soccer">Soccer</option>
+            <option value="Basketball">Basketball</option>
+            <option value="American Football">American Football</option>
+            <option value="Baseball">Baseball</option>
+            <option value="Tennis">Tennis</option>
+            <option value="Ice Hockey">Ice Hockey</option>
+            <option value="Motorsport">Motorsport / F1</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Golf">Golf</option>
+            <option value="Cricket">Cricket</option>
+            <option value="Rugby">Rugby</option>
+            <option value="Handball">Handball</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Water Polo">Water Polo</option>
+            <option value="Table Tennis">Table Tennis</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Athletics">Athletics / Track & Field</option>
+            <option value="UFC / MMA">UFC / MMA</option>
+            <option value="Boxing">Boxing</option>
+            <option value="Wrestling">Wrestling</option>
+            <option value="Snooker">Snooker</option>
+            <option value="Darts">Darts</option>
+            <option value="Esports">Esports</option>
+            <option value="Winter Sports">Winter Sports</option>
+          </select>
+
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search events by team or name..." />
+
+          <button class="btn" id="search-btn">Search</button>
+        </div>
+
+        <div id="search-results">
+          <div class="loading" id="loading-message">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading events from multiple sources...</p>
+          </div>
+
+          <div class="no-results" id="no-results" style="display: none">
+            <p>No events found.</p>
+          </div>
+
+          <div class="api-sections" id="api-sections"></div>
+        </div>
+      </div>
+    </main>
+
+    
+    <div data-include="footer"></div>
+
+    <script>
+      class SearchPage {
+        constructor() {
+          this.selectedSport = "";
+          this.init();
+        }
+
+        init() {
+          this.setupFilters();
+          this.setupEventHandlers();
+          this.loadInitialEvents();
+        }
+
+        setupFilters() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const sport = urlParams.get("sport");
+
+          if (sport) {
+            document.getElementById("sport-filter").value = sport;
+            this.selectedSport = sport;
+          }
+        }
+
+        setupEventHandlers() {
+          document
+            .getElementById("search-btn")
+            .addEventListener("click", () => {
+              this.performSearch();
+            });
+
+          document
+            .getElementById("sport-filter")
+            .addEventListener("change", (e) => {
+              this.selectedSport = e.target.value;
+              this.performSearch();
+            });
+
+          document
+            .getElementById("search-input")
+            .addEventListener("keypress", (e) => {
+              if (e.key === "Enter") {
+                this.performSearch();
+              }
+            });
+        }
+
+        async loadInitialEvents() {
+          await this.searchAllAPIs("");
+        }
+
+        async performSearch() {
+          const query = document.getElementById("search-input").value;
+          this.showLoading();
+          await this.searchAllAPIs(query);
+        }
+
+        async searchAllAPIs(query) {
+          const apiSections = document.getElementById("api-sections");
+          apiSections.innerHTML = "";
+
+          const apis = [
+            { name: "The Sports DB", method: this.searchSportsDB.bind(this) },
+            { name: "ESPN", method: this.searchESPN.bind(this) },
+            { name: "NBA", method: this.searchNBA.bind(this) },
+            { name: "MLB", method: this.searchMLB.bind(this) },
+          ];
+
+          const promises = apis.map((api) => this.searchWithAPI(api, query));
+          await Promise.all(promises);
+
+          this.hideLoading();
+        }
+
+        async searchWithAPI(api, query) {
+          const section = this.createAPISection(api.name);
+
+          try {
+            const events = await api.method(query);
+            const filtered = this.filterBySport(events).slice(0, 3);
+
+            this.displayEventsInSection(section, filtered, api.name);
+          } catch (err) {
+            console.error(err);
+            this.showAPIError(section, `${api.name} unavailable`);
+          }
+        }
+
+        filterBySport(events) {
+          if (!this.selectedSport) return events;
+          return events.filter((e) => {
+            const sport = e.strSport || e.sport;
+            return (
+              sport &&
+              sport.toLowerCase().includes(this.selectedSport.toLowerCase())
+            );
+          });
+        }
+
+        createAPISection(name) {
+          const apiSections = document.getElementById("api-sections");
+          const div = document.createElement("div");
+          div.className = "api-section";
+
+          div.innerHTML = `
+            <div class="api-header">
+              <h3>${name}</h3>
+              <span class="api-badge">API</span>
+            </div>
+            <div class="api-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Loading ${name}...</p>
+            </div>
+          `;
+
+          apiSections.appendChild(div);
+          return div;
+        }
+
+        displayEventsInSection(section, events, apiName) {
+          const loading = section.querySelector(".api-loading");
+
+          if (events.length === 0) {
+            loading.innerHTML = `<p>No events found in ${apiName}</p>`;
+            return;
+          }
+
+          loading.remove();
+
+          const grid = document.createElement("div");
+          grid.className = "events-grid";
+
+          grid.innerHTML = events
+            .map((event) => {
+              // For The Sports DB we have a stable event id that matches event.html
+              if (apiName === "The Sports DB" && event.idEvent) {
+                const href = `event.html?id=${encodeURIComponent(
+                  event.idEvent
+                )}`;
+                return `
+                  <a class="event-card-link" href="${href}">
+                    <div class="event-card">
+                      <h3>${event.strEvent || event.name}</h3>
+                      <p>${event.strLeague || event.league || ""}</p>
+                      <p>${event.dateEvent || event.date || ""}</p>
+                    </div>
+                  </a>
+                `;
+              }
+
+              // Fallback: non-clickable card for APIs without a dedicated event handler yet
+              return `
+                <div class="event-card">
+                  <h3>${event.strEvent || event.name}</h3>
+                  <p>${event.strLeague || event.league || ""}</p>
+                  <p>${event.dateEvent || event.date || ""}</p>
+                </div>
+              `;
+            })
+            .join("");
+
+          section.appendChild(grid);
+        }
+
+        showAPIError(section, msg) {
+          section.querySelector(
+            ".api-loading"
+          ).innerHTML = `<p class="api-error">${msg}</p>`;
+        }
+
+        showLoading() {
+          document.getElementById("loading-message").style.display = "block";
+          document.getElementById("no-results").style.display = "none";
+          document.getElementById("api-sections").innerHTML = "";
+        }
+
+        hideLoading() {
+          document.getElementById("loading-message").style.display = "none";
+        }
+
+        //
+        // ======================
+        //       APIS
+        // ======================
+        //
+
+        // ⭐ WORKING — TheSportsDB
+        async searchSportsDB(query) {
+          const url = query
+            ? `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(
+                query
+              )}`
+            : `https://www.thesportsdb.com/api/v1/json/3/eventspast.php`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+          return data.event || [];
+        }
+
+        // ⭐ ESPN VIA BACKEND
+        async searchESPN() {
+          const map = {
+            Soccer: "soccer",
+            Basketball: "basketball/nba",
+            "American Football": "football/nfl",
+            Baseball: "baseball/mlb",
+            "Ice Hockey": "hockey/nhl",
+          };
+
+          if (!this.selectedSport || !map[this.selectedSport]) return [];
+
+          const url = `/api/proxy/espn?sport=${map[this.selectedSport]}`;
+
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (!data.events) return [];
+
+          return data.events.map((e) => ({
+            id: e.id,
+            name: e.name,
+            sport: this.selectedSport,
+            date: e.date,
+            league: e.leagues?.[0]?.name,
+          }));
+        }
+
+        // ⭐ NBA VIA BACKEND
+        async searchNBA() {
+          if (this.selectedSport !== "Basketball") return [];
+
+          const res = await fetch("/api/proxy/nba");
+          const data = await res.json();
+
+          if (!data.links) return [];
+
+          const today = new Date()
+            .toISOString()
+            .split("T")[0]
+            .replace(/-/g, "");
+
+          const games = await fetch(
+            `/api/proxy/nbaScoreboard?date=${today}`
+          ).catch(() => null);
+
+          if (!games) return [];
+
+          const json = await games.json();
+
+          return (
+            json.games?.map((g) => ({
+              id: g.gameId,
+              name: `${g.vTeam?.triCode} vs ${g.hTeam?.triCode}`,
+              sport: "Basketball",
+              date: g.startTimeUTC,
+              league: "NBA",
+            })) || []
+          );
+        }
+
+        // ⭐ MLB VIA BACKEND
+        async searchMLB() {
+          if (this.selectedSport !== "Baseball") return [];
+
+          const today = new Date().toISOString().split("T")[0];
+
+          const res = await fetch(`/api/proxy/mlb?date=${today}`);
+          const data = await res.json();
+
+          const events = [];
+
+          data.dates?.forEach((d) => {
+            d.games?.forEach((g) => {
+              events.push({
+                id: g.gamePk,
+                name: `${g.teams.away.team.name} vs ${g.teams.home.team.name}`,
+                sport: "Baseball",
+                date: g.gameDate,
+                league: "MLB",
+              });
+            });
+          });
+
+          return events;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        new SearchPage();
+      });
+    </script>
+  </body>
+</html>

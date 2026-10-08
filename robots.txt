@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+
+# Block internal or non-canonical endpoints if any appear under these paths
+Disallow: /js/
+Disallow: /css/
+Disallow: /images/
+Disallow: /partials/
+
+# Explicitly allow key HTML pages
+Allow: /index.html
+Allow: /games.html
+Allow: /games1.html
+Allow: /event.html
+Allow: /lists.html
+Allow: /members.html
+Allow: /profile.html
+Allow: /submitreview.html
+Allow: /search.html
+Allow: /login.html
+Allow: /register.html
+
+Sitemap: https://sportsreplayed.com/sitemap.xml
+
+

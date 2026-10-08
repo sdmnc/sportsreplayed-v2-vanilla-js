@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password - SportsReplayed</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+   
+    <style>
+        .form-error { display: none; color: #ff6b6b; font-size: 0.9rem; margin-top: 8px; }
+        .form-group.invalid input { border-color: #ff6b6b; }
+        .success { color: #9fda9f; margin-top: 10px; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main>
+        <div class="login-form-container">
+            <form id="request-form" novalidate>
+                <h1>Forgot Password</h1>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                    <small class="form-error" id="email-error"></small>
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="request-submit">Send Reset Link</button>
+                </div>
+                <div class="form-footer">
+                    <p><a href="login.html">Back to Sign In</a></p>
+                    <div id="success-msg" class="success" style="display:none;">If that email exists, a reset link has been sent.</div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <div data-include="footer"></div>
+
+    <script>
+        (function() {
+            const form = document.getElementById('request-form');
+            const emailInput = document.getElementById('email');
+            const emailErr = document.getElementById('email-error');
+            const submitBtn = document.getElementById('request-submit');
+            const successMsg = document.getElementById('success-msg');
+
+            function setError(groupEl, errorEl, message) {
+                groupEl.classList.add('invalid');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+            }
+            function clearError(groupEl, errorEl) {
+                groupEl.classList.remove('invalid');
+                errorEl.textContent = '';
+                errorEl.style.display = 'none';
+            }
+            function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const group = emailInput.parentElement;
+                clearError(group, emailErr);
+                const email = emailInput.value.trim();
+                if (!email || !isValidEmail(email)) { setError(group, emailErr, 'Enter a valid email address.'); return; }
+
+                submitBtn.disabled = true;
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending…';
+                try {
+                    await fetch(window.requestResetApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    successMsg.style.display = 'block';
+                } catch (_) {
+                    successMsg.style.display = 'block';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Review - SportsReplayed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Submit a Review - SportsReplayed",
+      "url": "https://sportsreplayed.com/submitreview.html",
+      "description": "Submit in-depth reviews of sports matches on SportsReplayed and share your analysis with other fans.",
+      "keywords": [
+        "write reviews of sports matches online",
+        "sports replay review website for fans",
+        "best website to review sports matches",
+        "track and review sports games online",
+        "fan reviews of football replays",
+        "review NBA-style highlight plays"
+      ]
+    }
+    </script>
+      <script src="js/config.js"></script>
+    <script src="js/partials.js"></script>
+    <script src="js/auth.js"></script>
+    <style>
+        .review-form { max-width: 700px; margin: 30px auto; background: var(--card-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
+        .review-form h1 { border: none; margin-bottom: 10px; text-align: center; }
+        .form-row { margin-bottom: 16px; }
+        .form-row label { display: block; margin-bottom: 8px; color: var(--text-light); font-weight: 600; }
+        .form-row select, .form-row input, .form-row textarea { width: 100%; background: var(--bg-color); color: var(--text-light); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; box-sizing: border-box; }
+        .form-row textarea { min-height: 160px; resize: vertical; }
+        .stars { display: inline-flex; gap: 8px; font-size: 1.6rem; cursor: pointer; }
+        .star { color: #4b5663; }
+        .star.active, .star.hover { color: var(--accent-color); }
+        .form-actions { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .btn { background-color: var(--accent-color); color: var(--bg-color); padding: 10px 16px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn.secondary { background: transparent; color: var(--text-light); border: 1px solid var(--border-color); }
+        .note { text-align: center; color: var(--text-color); font-size: 0.95rem; margin-top: 8px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .checkbox-row { display: flex; align-items: center; gap: 8px; }
+        .checkbox-row input[type="checkbox"] { width: auto; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+
+<body>
+    <div data-include="header"></div>
+
+    <main>
+        <div class="container">
+            <div class="review-form">
+                <h1>Submit a Review</h1>
+                
+                <!-- Sport Selection -->
+                <div class="form-row">
+                    <label for="sport">Sport *</label>
+                    <select id="sport" required>
+                        <option value="" selected disabled>Select a sport</option>
+                        <option>Soccer</option>
+                        <option>Basketball</option>
+                        <option>American Football</option>
+                        <option>Baseball</option>
+                        <option>Tennis</option>
+                        <option>Athletics</option>
+                        <option>Formula 1</option>
+                        <option>UFC / MMA</option>
+                        <option>Hockey</option>
+                        <option>Golf</option>
+                        <option>Cycling</option>
+                        <option>Cricket</option>
+                    </select>
+                </div>
+
+                <!-- League and Event in Grid -->
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="liga">League/Tournament</label>
+                        <input type="text" id="liga" placeholder="e.g., Premier League, NBA, Champions League">
+                    </div>
+                    <div class="form-row">
+                        <label for="event">Match/Event</label>
+                        <input type="text" id="event" placeholder="e.g., Team A vs Team B">
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="form-row">
+                    <label for="results">Final Score/Result</label>
+                    <input type="text" id="results" placeholder="e.g., 2-1, 105-98, 3-0">
+                </div>
+
+                <!-- Rating -->
+                <div class="form-row">
+                    <label>Rating *</label>
+                    <div class="stars" id="stars" aria-label="Star rating" role="radiogroup">
+                        <i class="fa-solid fa-star star" data-value="1" role="radio" aria-checked="false" tabindex="0"></i>
+                        <i class="fa-solid fa-star star" data-value="2" role="radio" aria-checked="false" tabindex="0"></i>
+                        <i class="fa-solid fa-star star" data-value="3" role="radio" aria-checked="false" tabindex="0"></i>
+                        <i class="fa-solid fa-star star" data-value="4" role="radio" aria-checked="false" tabindex="0"></i>
+                        <i class="fa-solid fa-star star" data-value="5" role="radio" aria-checked="false" tabindex="0"></i>
+                    </div>
+                </div>
+
+                <!-- Review Text -->
+                <div class="form-row">
+                    <label for="review_text">Your Review *</label>
+                    <textarea id="review_text" placeholder="Share your thoughts, analysis, and key moments from the match..." required></textarea>
+                </div>
+
+                <!-- Watched Checkbox -->
+                <div class="form-row">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="watched">
+                        <label for="watched" style="margin-bottom: 0; font-weight: normal;">I watched this match/event</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn" id="submit-btn">Submit Review</button>
+                    <button class="btn secondary" id="clear-btn" type="button">Clear</button>
+                </div>
+                <div class="note">* Required fields</div>
+            </div>
+        </div>
+    </main>
+
+    
+    <div data-include="footer"></div>
+
+    <script>
+        (function() {
+            const starsEl = document.getElementById('stars');
+            const starEls = Array.from(starsEl.querySelectorAll('.star'));
+            const submitBtn = document.getElementById('submit-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const sportEl = document.getElementById('sport');
+            const ligaEl = document.getElementById('liga');
+            const eventEl = document.getElementById('event');
+            const resultsEl = document.getElementById('results');
+            const reviewTextEl = document.getElementById('review_text');
+            const watchedEl = document.getElementById('watched');
+            let rating = 0;
+
+            function render(r) {
+                starEls.forEach((s, idx) => {
+                    const val = idx + 1;
+                    s.classList.toggle('active', val <= r);
+                    s.setAttribute('aria-checked', String(val === r));
+                });
+            }
+            function handleHover(val) {
+                starEls.forEach((s, idx) => s.classList.toggle('hover', idx < val));
+            }
+            starEls.forEach((s) => {
+                s.addEventListener('mouseenter', () => handleHover(Number(s.dataset.value)));
+                s.addEventListener('mouseleave', () => handleHover(0));
+                s.addEventListener('click', () => { rating = Number(s.dataset.value); render(rating); });
+                s.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); rating = Number(s.dataset.value); render(rating); } });
+            });
+
+            clearBtn.addEventListener('click', () => { 
+                rating = 0; 
+                render(rating); 
+                sportEl.selectedIndex = 0; 
+                ligaEl.value = '';
+                eventEl.value = '';
+                resultsEl.value = '';
+                reviewTextEl.value = '';
+                watchedEl.checked = false;
+            });
+
+            submitBtn.addEventListener('click', async () => {
+                const sport = sportEl.value;
+                const liga = ligaEl.value.trim();
+                const event = eventEl.value.trim();
+                const results = resultsEl.value.trim();
+                const review_text = reviewTextEl.value.trim();
+                const watched = watchedEl.checked ? 1 : 0;
+
+                // Validation
+                if (!sport) { alert('Please select a sport.'); return; }
+                if (!rating) { alert('Please choose a rating.'); return; }
+                if (!review_text) { alert('Please enter your review.'); return; }
+
+                const auth = window.Auth && window.Auth.getAuth ? window.Auth.getAuth() : { token: null };
+                if (!auth.token) { 
+                    alert('Please sign in to submit your review.'); 
+                    window.location.href = 'login.html'; 
+                    return; 
+                }
+
+                try {
+                    // MODIFIED: Send all fields that backend expects
+                    const res = await fetch(window.reviewsApiUrl, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json', 
+                            'Authorization': 'Bearer ' + auth.token 
+                        },
+                        body: JSON.stringify({ 
+                            sport, 
+                            liga, 
+                            event, 
+                            results, 
+                            rating, 
+                            review_text, 
+                            watched 
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const t = await res.text();
+                        throw new Error(t || 'Failed to submit review');
+                    }
+
+                    const data = await res.json();
+                    alert('Review submitted successfully! Review ID: ' + data.review_id);
+                    
+                    // Clear form
+                    rating = 0; 
+                    render(rating); 
+                    sportEl.selectedIndex = 0; 
+                    ligaEl.value = '';
+                    eventEl.value = '';
+                    resultsEl.value = '';
+                    reviewTextEl.value = '';
+                    watchedEl.checked = false;
+
+                } catch (err) {
+                    alert((err && err.message) || 'Unable to submit review.');
+                    console.error('Review submission error:', err);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
